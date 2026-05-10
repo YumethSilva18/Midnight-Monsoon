@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --monsoon-purple: #2D0A4A;
+  --monsoon-blue: #0F2A4A;
+  --neon-blue: #00D4FF;
+  --monsoon-gold: #FFC857;
+  --hot-pink: #FF007F;
+  --bg-dark: #0A0A0A;
+  --bg-secondary: #111111;
+}
+@layer base {
+  body {
+    @apply bg-[#0A0A0A] text-white antialiased overflow-x-hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Luxury font for main hero banners */
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Professional font for section headings */
+  h2, h3, h4 {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  
+  /* Body text - clean and readable */
+  p, span, div {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  /* Performance optimizations */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Optimize images and media */
+  img, video {
+    content-visibility: auto;
+  }
+  
+  /* Reduce motion for accessibility and performance */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+@layer components {
+  /* Luxury font classes */
+  .font-luxury {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  
+  .font-professional {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  
+  .font-body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+  }
+  
+  /* GPU acceleration for animations */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  .neon-text-blue {
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.7), 0 0 20px rgba(0, 212, 255, 0.4);
+  }
+  .neon-text-pink {
+    text-shadow: 0 0 10px rgba(255, 0, 127, 0.7), 0 0 20px rgba(255, 0, 127, 0.4);
+  }
+  .neon-border-blue {
+    box-shadow: 0 0 5px rgba(0, 212, 255, 0.5), inset 0 0 5px rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.5);
+  }
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl;
+  }
+  .btn-primary {
+    @apply px-8 py-3 bg-transparent border-2 border-[#00D4FF] text-[#00D4FF] font-semibold rounded-full 
+    transition-all duration-300 hover:bg-[#00D4FF] hover:text-black hover:shadow-[0_0_20px_rgba(0,212,255,0.6)]
+    active:scale-95;
+  }
+  .btn-secondary {
+    @apply px-8 py-3 bg-[#FF007F] text-white font-semibold rounded-full 
+    transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,0,127,0.6)]
+    active:scale-95;
+  }
+
+  /* Services Showcase Enhancements */
+  .service-card-glow {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  
+  .service-card-glow:hover {
+    filter: brightness(1.1);
+  }
+
+  .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-[#FFC857] via-[#FF007F] to-[#00D4FF];
+  }
+
+  /* Shining white text effect */
+  .text-shine-white {
+    color: #ffffff;
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.8),
+      0 0 20px rgba(255, 255, 255, 0.6),
+      0 0 30px rgba(255, 255, 255, 0.4);
+    animation: shine 3s ease-in-out infinite;
+  }
+
+  @keyframes shine {
+    0%, 100% {
+      text-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.8),
+        0 0 20px rgba(255, 255, 255, 0.6),
+        0 0 30px rgba(255, 255, 255, 0.4);
+    }
+    50% {
+      text-shadow: 
+        0 0 15px rgba(255, 255, 255, 1),
+        0 0 30px rgba(255, 255, 255, 0.8),
+        0 0 45px rgba(255, 255, 255, 0.6);
+    }
+  }
+}
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 200, 87, 0.3);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 200, 87, 0.6);
+}
+
+/* Hide scrollbar for horizontal menu navigation */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Thin scrollbar for menu content */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.3);
+  border-radius: 10px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.6);
+}
