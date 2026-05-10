@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronRight, ArrowLeft } from 'lucide-react';
+import { ChevronRight, ArrowLeft } from 'lucide-react';
 
 // Gallery Categories Data
 const galleryCategories = [
@@ -8,7 +8,7 @@ const galleryCategories = [
     id: 'drinks',
     title: 'DRINKS',
     subtitle: 'Liquid Artistry',
-    image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1200&q=80',
+    image: '/Gallery/Drinks/Drinks-main.jpg',
     gradient: 'from-amber-500/20 to-orange-600/20',
     accentColor: '#FFC857',
     items: [
@@ -23,19 +23,20 @@ const galleryCategories = [
       'Bottle Service'
     ],
     images: [
-      'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1560508020-c6b8f3a39dac?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1509669803555-fd5d83d6d7ca?auto=format&fit=crop&w=800&q=80'
+      '/Gallery/Drinks/drinks01.jpg',
+      '/Gallery/Drinks/drinks02.jpg',
+      '/Gallery/Drinks/drinks03.jpg',
+      '/Gallery/Drinks/drinks04.jpg',
+      '/Gallery/Drinks/drinks05.jpg',
+      '/Gallery/Drinks/drinks06.jpg',
+      '/Gallery/Drinks/drinks07.jpg'
     ]
   },
   {
     id: 'foods',
     title: 'FOODS',
     subtitle: 'Culinary Excellence',
-    image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=80',
+    image: '/Gallery/Foods/kobby-mendez-idTwDKt2j2o-unsplash.jpg',
     gradient: 'from-red-500/20 to-pink-600/20',
     accentColor: '#FF007F',
     items: [
@@ -50,19 +51,20 @@ const galleryCategories = [
       'Premium Dining Experience'
     ],
     images: [
-      'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=800&q=80'
+      '/Gallery/Foods/birgith-roosipuu-qE2RzCozwJI-unsplash.jpg',
+      '/Gallery/Foods/jarukit-nantaprapin-_59RTihF4bI-unsplash.jpg',
+      '/Gallery/Foods/jay-jjIuYrisJ2c-unsplash.jpg',
+      '/Gallery/Foods/proper-quality-shandis-Ls_ifted7I8-unsplash.jpg',
+      '/Gallery/Foods/semih-koca-yyc0QXznfGk-unsplash.jpg',
+      '/Gallery/Foods/solo-seafood-sC5NuyjiBjU-unsplash.jpg',
+      '/Gallery/Foods/kobby-mendez-idTwDKt2j2o-unsplash.jpg'
     ]
   },
   {
     id: 'entertainment',
     title: 'ENTERTAINMENT',
     subtitle: 'Electric Nights',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
+    image: '/Gallery/Entertainment/aleksandr-popov-DPspiXW2zWg-unsplash.jpg',
     gradient: 'from-purple-500/20 to-pink-600/20',
     accentColor: '#A855F7',
     items: [
@@ -76,12 +78,13 @@ const galleryCategories = [
       'Acoustic Sessions'
     ],
     images: [
-      'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1571266028243-d220c6e2e8e2?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1598387993441-a364f854c3e1?auto=format&fit=crop&w=800&q=80'
+      '/Gallery/Entertainment/aleksandr-popov-3XXkojDxK_g-unsplash.jpg',
+      '/Gallery/Entertainment/gabriel-gurrola-2UuhMZEChdc-unsplash.jpg',
+      '/Gallery/Entertainment/himanshu-choudhary-lzBcmD1VKms-unsplash.jpg',
+      '/Gallery/Entertainment/howen-v-Osi1kUPAQ-unsplash.jpg',
+      '/Gallery/Entertainment/krys-amon-ttv1pX6tk7o-unsplash.jpg',
+      '/Gallery/Entertainment/nereid-ndreu-h3bZqJlAMOs-unsplash.jpg',
+      '/Gallery/Entertainment/aleksandr-popov-DPspiXW2zWg-unsplash.jpg'
     ]
   },
   {
@@ -272,39 +275,42 @@ CategorySection.displayName = 'CategorySection';
 
 // Memoized Gallery Modal Component with Back Button
 const GalleryModal = memo(({ category, onClose }) => {
-  const [selectedImage, setSelectedImage] = useState(null);
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm overflow-y-auto">
+      className="fixed inset-0 z-[100] bg-[#0A0A0A] overflow-y-auto">
       
-      <div className="min-h-screen py-20 px-6">
-        {/* Back Button */}
-        <button
-          onClick={onClose}
-          className="fixed top-8 left-8 z-[110] flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white hover:bg-white/20 transition-all duration-300 group">
-          <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-          <span className="font-semibold">Back to Gallery</span>
-        </button>
-        
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="fixed top-8 right-8 z-[110] text-white hover:text-[#FF007F] transition-colors p-3 bg-white/10 rounded-full backdrop-blur-md hover:bg-white/20">
-          <X size={28} />
-        </button>
-        
-        <div className="container mx-auto max-w-7xl pt-20">
-          {/* Header */}
+      <div className="min-h-screen py-12 px-6">
+        <div className="container mx-auto max-w-7xl">
+          {/* Header with Logo and Back Button */}
           <motion.div
             initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="text-center mb-12">
+            {/* Logo */}
+            <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
+              MIDNIGHT <span className="text-[#00D4FF]">MONSOON</span>
+            </h1>
+            
+            {/* Back Button */}
+            <button
+              onClick={onClose}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white hover:bg-[#00D4FF] hover:text-black hover:border-[#00D4FF] transition-all duration-300 group">
+              <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+              <span className="font-semibold">Back to Gallery</span>
+            </button>
+          </motion.div>
+          
+          {/* Category Title */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
             className="text-center mb-12">
-            <h2 className="text-5xl md:text-7xl font-black text-white mb-4">
+            <h2 className="text-5xl md:text-6xl font-black text-white mb-3">
               {category.title}
             </h2>
             <p 
@@ -314,80 +320,69 @@ const GalleryModal = memo(({ category, onClose }) => {
             </p>
           </motion.div>
           
-          {/* Items List */}
+          {/* Drinks List */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mb-12 bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10">
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">What We Offer</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {category.items.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-2 text-gray-300 text-sm">
-                  <div 
-                    className="w-2 h-2 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: category.accentColor }}
-                  />
-                  <span>{item}</span>
-                </div>
-              ))}
+            className="mb-16 max-w-5xl mx-auto">
+            <div className="glass-card p-8 md:p-12">
+              <h3 className="text-3xl font-bold text-white mb-8 text-center">Our Selection</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4">
+                {category.items.map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 + idx * 0.05 }}
+                    className="flex items-center gap-3 text-gray-300 text-base py-2 border-b border-white/5 hover:text-[#00D4FF] transition-colors">
+                    <div 
+                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: category.accentColor }}
+                    />
+                    <span className="font-medium">{item}</span>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </motion.div>
           
-          {/* Image Gallery Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {category.images.map((img, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4 + idx * 0.1 }}
-                onClick={() => setSelectedImage(img)}
-                className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group">
-                
-                <img
-                  src={img}
-                  alt={`${category.title} ${idx + 1}`}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          {/* Image Gallery Grid - No Click/Popup */}
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="mb-12">
+            <h3 className="text-3xl font-bold text-white mb-8 text-center">Gallery</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {category.images.map((img, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.6 + idx * 0.1 }}
+                  className="relative aspect-square rounded-2xl overflow-hidden group">
+                  
+                  <img
+                    src={img}
+                    alt={`${category.title} ${idx + 1}`}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  
+                  {/* Subtle Hover Overlay */}
                   <div 
-                    className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: `${category.accentColor}30` }}>
-                    <ChevronRight className="w-8 h-8" style={{ color: category.accentColor }} />
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${category.accentColor}15, transparent)` 
+                    }}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
-      
-      {/* Image Lightbox */}
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[120] bg-black/98 flex items-center justify-center p-4"
-            onClick={() => setSelectedImage(null)}>
-            <motion.img
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              src={selectedImage}
-              alt="Full view"
-              className="max-w-full max-h-[90vh] rounded-xl shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 });
