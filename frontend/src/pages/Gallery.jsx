@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ArrowLeft } from 'lucide-react';
+import { ChevronRight, ArrowLeft, Sparkles } from 'lucide-react';
 
 // Gallery Categories Data
 const galleryCategories = [
@@ -9,8 +9,9 @@ const galleryCategories = [
     title: 'DRINKS',
     subtitle: 'Liquid Artistry',
     image: '/Gallery/Drinks/Drinks-main.jpg',
-    gradient: 'from-amber-500/20 to-orange-600/20',
-    accentColor: '#FFC857',
+    gradient: 'from-amber-500/20 via-orange-500/20 to-amber-600/20',
+    accentColor: '#F59E0B',
+    glowColor: 'rgba(245, 158, 11, 0.4)',
     items: [
       'Bites / Bar Snacks',
       'Gourmet Platters',
@@ -37,8 +38,9 @@ const galleryCategories = [
     title: 'FOODS',
     subtitle: 'Culinary Excellence',
     image: '/Gallery/Foods/kobby-mendez-idTwDKt2j2o-unsplash.jpg',
-    gradient: 'from-red-500/20 to-pink-600/20',
-    accentColor: '#FF007F',
+    gradient: 'from-rose-500/20 via-pink-500/20 to-red-600/20',
+    accentColor: '#F43F5E',
+    glowColor: 'rgba(244, 63, 94, 0.4)',
     items: [
       'Late-Night Dining',
       'Bites / Bar Snacks',
@@ -65,8 +67,9 @@ const galleryCategories = [
     title: 'ENTERTAINMENT',
     subtitle: 'Electric Nights',
     image: '/Gallery/Entertainment/aleksandr-popov-DPspiXW2zWg-unsplash.jpg',
-    gradient: 'from-purple-500/20 to-pink-600/20',
+    gradient: 'from-purple-500/20 via-violet-500/20 to-fuchsia-600/20',
     accentColor: '#A855F7',
+    glowColor: 'rgba(168, 85, 247, 0.4)',
     items: [
       'Live DJ & Music',
       'Dance Floor',
@@ -91,9 +94,10 @@ const galleryCategories = [
     id: 'lounge',
     title: 'LOUNGE & EXPERIENCE',
     subtitle: 'Elevated Comfort',
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
-    gradient: 'from-cyan-500/20 to-blue-600/20',
-    accentColor: '#00D4FF',
+    image: '/Gallery/Lounge & Experience/stanislav-knopp-nawaKdBv75c-unsplash.jpg',
+    gradient: 'from-cyan-500/20 via-sky-500/20 to-blue-600/20',
+    accentColor: '#06B6D4',
+    glowColor: 'rgba(6, 182, 212, 0.4)',
     items: [
       'Hookah Lounge / Shisha',
       'VIP Booths',
@@ -105,21 +109,22 @@ const galleryCategories = [
       'Poolside Bar'
     ],
     images: [
-      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1574096079513-d8259312b785?auto=format&fit=crop&w=800&q=80'
+      '/Gallery/Lounge & Experience/considerate-agency-f5hCYk1PdA0-unsplash.jpg',
+      '/Gallery/Lounge & Experience/logistic-hookah-mgs-R44dp9s-unsplash.jpg',
+      '/Gallery/Lounge & Experience/sasha-make-stories-studio-qzt0DKKG8Pc-unsplash.jpg',
+      '/Gallery/Lounge & Experience/tai-bui-2voBM3XMt6w-unsplash.jpg',
+      '/Gallery/Lounge & Experience/tanja-tepavac-jSH-7IjJVsQ-unsplash.jpg',
+      '/Gallery/Lounge & Experience/stanislav-knopp-nawaKdBv75c-unsplash.jpg'
     ]
   },
   {
     id: 'events',
     title: 'EVENTS & SOCIAL',
     subtitle: 'Unforgettable Moments',
-    image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80',
-    gradient: 'from-rose-500/20 to-red-600/20',
-    accentColor: '#FF1744',
+    image: '/Gallery/Event & Social/matty-adame-nLUb9GThIcg-unsplash (1).jpg',
+    gradient: 'from-red-500/20 via-rose-500/20 to-pink-600/20',
+    accentColor: '#EF4444',
+    glowColor: 'rgba(239, 68, 68, 0.4)',
     items: [
       'Birthday Celebrations',
       'Corporate Events',
@@ -131,21 +136,23 @@ const galleryCategories = [
       'Seasonal Festivals'
     ],
     images: [
-      'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1519167758481-83f29da8c2b0?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80'
+      '/Gallery/Event & Social/ibuki-tsubo-kNxQv2d2pGI-unsplash.jpg',
+      '/Gallery/Event & Social/laszlo-barta-TuVMcxuFeYU-unsplash.jpg',
+      '/Gallery/Event & Social/nereid-ndreu-h3bZqJlAMOs-unsplash.jpg',
+      '/Gallery/Event & Social/ourwhisky-foundation-SdTKkcdz9mY-unsplash.jpg',
+      '/Gallery/Event & Social/roman-oB5Ct0dixk8-unsplash.jpg',
+      '/Gallery/Event & Social/sujan-khalifa-FTidJBLW1AY-unsplash.jpg',
+      '/Gallery/Event & Social/matty-adame-nLUb9GThIcg-unsplash (1).jpg'
     ]
   },
   {
     id: 'premium',
     title: 'PREMIUM SERVICES',
     subtitle: 'VIP Treatment',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80',
-    gradient: 'from-yellow-500/20 to-amber-600/20',
-    accentColor: '#FFD700',
+    image: '/Gallery/Premium Services/jordan-graff-9TBgvuPAe0Y-unsplash.jpg',
+    gradient: 'from-yellow-500/20 via-amber-500/20 to-orange-600/20',
+    accentColor: '#EAB308',
+    glowColor: 'rgba(234, 179, 8, 0.4)',
     items: [
       'Table Reservations',
       'Valet Parking',
@@ -155,12 +162,10 @@ const galleryCategories = [
       'Security & Private Access'
     ],
     images: [
-      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6?auto=format&fit=crop&w=800&q=80'
+      '/Gallery/Premium Services/adrien-vajas-WZ5DN04_XZ4-unsplash.jpg',
+      '/Gallery/Premium Services/arya-foto-SqRtvlCcN9s-unsplash.jpg',
+      '/Gallery/Premium Services/foto-dial-LEHNmIJ467k-unsplash.jpg',
+      '/Gallery/Premium Services/jordan-graff-9TBgvuPAe0Y-unsplash.jpg'
     ]
   },
   {
@@ -168,8 +173,9 @@ const galleryCategories = [
     title: 'ATMOSPHERE & AMBIENCE',
     subtitle: 'Midnight Monsoon Vibes',
     image: 'https://images.unsplash.com/photo-1514539079130-25950c84af65?auto=format&fit=crop&w=1200&q=80',
-    gradient: 'from-indigo-500/20 to-purple-600/20',
+    gradient: 'from-indigo-500/20 via-blue-500/20 to-purple-600/20',
     accentColor: '#6366F1',
+    glowColor: 'rgba(99, 102, 241, 0.4)',
     items: [
       'Neon Nightlife',
       'Chill Vibes',
@@ -190,91 +196,111 @@ const galleryCategories = [
   }
 ];
 
-// Memoized Category Section Component with Left Text + Right Image Layout
-const CategorySection = memo(({ category, onClick, index }) => (
+// Memoized Category Card Component - Professional Design
+const CategoryCard = memo(({ category, onClick, index }) => (
   <motion.div
-    initial={{ opacity: 0, y: 50 }}
+    initial={{ opacity: 0, y: 60 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, amount: 0.2 }}
-    transition={{ duration: 0.8, delay: index * 0.1 }}
-    className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-12 ${
-      index % 2 === 0 ? '' : 'lg:grid-flow-dense'
-    }`}>
+    transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+    className="group relative">
     
-    {/* Text Content - Left Side */}
-    <div className={`${index % 2 === 0 ? '' : 'lg:col-start-2'}`}>
-      <motion.div
-        initial={{ x: index % 2 === 0 ? -30 : 30, opacity: 0 }}
-        whileInView={{ x: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3, duration: 0.6 }}>
-        
-        {/* Category Badge */}
-        <div className="inline-block mb-4">
-          <span 
-            className="text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/40">
-            {category.subtitle}
-          </span>
-        </div>
-        
-        {/* Category Title */}
-        <h2 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-          {category.title}
-        </h2>
-        
-        {/* Items List */}
-        <ul className="space-y-2 mb-6">
-          {category.items.map((item, idx) => (
-            <li key={idx} className="flex items-start gap-3 text-gray-300">
-              <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0 bg-[#00D4FF]" />
-              <span className="text-base leading-relaxed">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </motion.div>
-    </div>
-    
-    {/* Image - Right Side */}
-    <div className={`${index % 2 === 0 ? '' : 'lg:col-start-1 lg:row-start-1'}`}>
-      <motion.div
-        initial={{ x: index % 2 === 0 ? 30 : -30, opacity: 0 }}
-        whileInView={{ x: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        onClick={onClick}
-        className="group relative h-[450px] rounded-3xl overflow-hidden cursor-pointer">
-        
-        {/* Featured Image */}
+    <div 
+      onClick={onClick}
+      className="relative h-[500px] rounded-3xl overflow-hidden cursor-pointer bg-black/40 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-500">
+      
+      {/* Background Image */}
+      <div className="absolute inset-0">
         <img
           src={category.image}
           alt={category.title}
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
+        <div className={`absolute inset-0 bg-gradient-to-t ${category.gradient} opacity-60`} />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+      </div>
+      
+      {/* Content */}
+      <div className="relative h-full flex flex-col justify-end p-8 md:p-10">
+        {/* Subtitle Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 + index * 0.1 }}
+          className="mb-4">
+          <span 
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] backdrop-blur-md border"
+            style={{ 
+              backgroundColor: `${category.accentColor}20`,
+              color: category.accentColor,
+              borderColor: `${category.accentColor}40`
+            }}>
+            <Sparkles size={14} />
+            {category.subtitle}
+          </span>
+        </motion.div>
         
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+        {/* Title */}
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 + index * 0.1 }}
+          className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight leading-none"
+          style={{ fontFamily: "'Playfair Display', serif" }}>
+          {category.title}
+        </motion.h2>
         
-        {/* Hover Glow Effect */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[#00D4FF]/10" />
-        
-        {/* Explore Button - Always Visible on Image */}
-        <div className="absolute bottom-8 left-8 right-8">
-          <button
-            className="w-full group/btn inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full font-bold uppercase tracking-wider transition-all duration-300 bg-[#00D4FF]/20 text-[#00D4FF] border-2 border-[#00D4FF]/60 hover:bg-[#00D4FF] hover:text-black backdrop-blur-md">
-            <span>Explore Gallery</span>
-            <ChevronRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-2" />
-          </button>
-        </div>
-      </motion.div>
+        {/* Explore Button */}
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 + index * 0.1 }}
+          className="group/btn inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold uppercase tracking-wider text-sm transition-all duration-300 backdrop-blur-md border-2 w-fit"
+          style={{
+            backgroundColor: `${category.accentColor}15`,
+            color: category.accentColor,
+            borderColor: `${category.accentColor}60`
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = category.accentColor;
+            e.currentTarget.style.color = '#000';
+            e.currentTarget.style.borderColor = category.accentColor;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = `${category.accentColor}15`;
+            e.currentTarget.style.color = category.accentColor;
+            e.currentTarget.style.borderColor = `${category.accentColor}60`;
+          }}>
+          <span>Explore Collection</span>
+          <ChevronRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-2" />
+        </motion.button>
+      </div>
+      
+      {/* Glow Effect on Hover */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{
+          background: `radial-gradient(circle at center, ${category.glowColor}, transparent 70%)`
+        }}
+      />
     </div>
   </motion.div>
 ));
 
-CategorySection.displayName = 'CategorySection';
+CategoryCard.displayName = 'CategoryCard';
 
-// Memoized Gallery Modal Component with Back Button
+// Memoized Gallery Modal Component - Professional Design with Masonry Layout
 const GalleryModal = memo(({ category, onClose }) => {
+  // Scroll to top when modal opens
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+    // Don't lock body scroll - let the modal handle its own scrolling
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -282,25 +308,27 @@ const GalleryModal = memo(({ category, onClose }) => {
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[100] bg-[#0A0A0A] overflow-y-auto">
       
-      <div className="min-h-screen py-12 px-6">
+      <div className="min-h-screen py-16 px-6">
         <div className="container mx-auto max-w-7xl">
-          {/* Header with Logo and Back Button */}
+          {/* Header */}
           <motion.div
             initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="text-center mb-12">
+            className="text-center mb-16">
+            
             {/* Logo */}
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
-              MIDNIGHT <span className="text-[#00D4FF]">MONSOON</span>
+            <h1 className="text-3xl md:text-4xl font-black text-white mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+              MIDNIGHT <span style={{ color: category.accentColor }}>MONSOON</span>
             </h1>
             
             {/* Back Button */}
             <button
               onClick={onClose}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white hover:bg-[#00D4FF] hover:text-black hover:border-[#00D4FF] transition-all duration-300 group">
+              className="inline-flex items-center gap-3 px-8 py-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
+              style={{ fontFamily: "'Inter', sans-serif" }}>
               <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-              <span className="font-semibold">Back to Gallery</span>
+              <span className="font-semibold text-sm uppercase tracking-wider">Back to Gallery</span>
             </button>
           </motion.div>
           
@@ -309,35 +337,45 @@ const GalleryModal = memo(({ category, onClose }) => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-center mb-12">
-            <h2 className="text-5xl md:text-6xl font-black text-white mb-3">
+            className="text-center mb-16">
+            <motion.div className="inline-block mb-6">
+              <span 
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.2em] backdrop-blur-md border"
+                style={{ 
+                  backgroundColor: `${category.accentColor}20`,
+                  color: category.accentColor,
+                  borderColor: `${category.accentColor}40`
+                }}>
+                <Sparkles size={16} />
+                {category.subtitle}
+              </span>
+            </motion.div>
+            <h2 className="text-5xl md:text-7xl font-black text-white mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
               {category.title}
             </h2>
-            <p 
-              className="text-xl uppercase tracking-widest font-semibold"
-              style={{ color: category.accentColor }}>
-              {category.subtitle}
-            </p>
           </motion.div>
           
-          {/* Drinks List */}
+          {/* Items List - Professional Grid */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mb-16 max-w-5xl mx-auto">
-            <div className="glass-card p-8 md:p-12">
-              <h3 className="text-3xl font-bold text-white mb-8 text-center">Our Selection</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4">
+            className="mb-20 max-w-6xl mx-auto">
+            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-10 md:p-14 border border-white/10">
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-10 text-center" style={{ fontFamily: "'Playfair Display', serif" }}>
+                Our Selection
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {category.items.map((item, idx) => (
                   <motion.div
                     key={idx}
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.4 + idx * 0.05 }}
-                    className="flex items-center gap-3 text-gray-300 text-base py-2 border-b border-white/5 hover:text-[#00D4FF] transition-colors">
+                    className="flex items-center gap-4 text-gray-200 text-base py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 transition-all duration-300 group"
+                    style={{ fontFamily: "'Inter', sans-serif" }}>
                     <div 
-                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      className="w-2 h-2 rounded-full flex-shrink-0 group-hover:scale-150 transition-transform"
                       style={{ backgroundColor: category.accentColor }}
                     />
                     <span className="font-medium">{item}</span>
@@ -347,34 +385,41 @@ const GalleryModal = memo(({ category, onClose }) => {
             </div>
           </motion.div>
           
-          {/* Image Gallery Grid - No Click/Popup */}
+          {/* Image Gallery - Masonry Layout for Portrait/Landscape */}
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="mb-12">
-            <h3 className="text-3xl font-bold text-white mb-8 text-center">Gallery</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            className="mb-16">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Gallery
+            </h3>
+            
+            {/* Masonry Grid - Images maintain aspect ratio */}
+            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
               {category.images.map((img, idx) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.6 + idx * 0.1 }}
-                  className="relative aspect-square rounded-2xl overflow-hidden group">
+                  className="break-inside-avoid relative rounded-2xl overflow-hidden group border border-white/10 hover:border-white/20 transition-all duration-500"
+                  style={{
+                    boxShadow: `0 10px 40px ${category.glowColor}`
+                  }}>
                   
                   <img
                     src={img}
                     alt={`${category.title} ${idx + 1}`}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   
-                  {/* Subtle Hover Overlay */}
+                  {/* Subtle Overlay */}
                   <div 
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{ 
-                      background: `linear-gradient(135deg, ${category.accentColor}15, transparent)` 
+                      background: `linear-gradient(135deg, ${category.accentColor}20, transparent 60%)` 
                     }}
                   />
                 </motion.div>
@@ -400,52 +445,53 @@ export function Gallery() {
       transition={{ duration: 0.3, ease: "easeInOut" }}
       style={{ willChange: 'opacity, transform' }}
       className="min-h-screen bg-[#0A0A0A]">
-      {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
+      
+      {/* Hero Section - Professional Typography */}
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
         <img
           src="/Gallerypage-banner.jpg"
           alt="Gallery Banner"
           loading="eager"
           fetchpriority="high"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            transform: 'translateZ(0)',
-            willChange: 'transform'
-          }}
         />
         
-        {/* Dark Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-[#0A0A0A]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-[#0A0A0A]" />
         
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00D4FF] rounded-full blur-[150px] animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-[#00D4FF] rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '2s' }} />
-        </div>
-
         <div className="container mx-auto px-6 relative z-10 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}>
-            <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tight">
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="inline-block mb-6">
+              <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.3em] bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/40 backdrop-blur-md">
+                <Sparkles size={16} />
+                Explore Our World
+              </span>
+            </motion.div>
+            
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tight leading-none" style={{ fontFamily: "'Playfair Display', serif" }}>
               MONSOON <span className="text-[#00D4FF]">GALLERY</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto font-light leading-relaxed">
-              Experience the essence of <span className="text-[#00D4FF] font-semibold">Midnight Monsoon</span><br />
-              <span className="text-gray-400 text-lg">Rain, Rhythm & Unforgettable Nights</span>
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto font-light leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
+              Experience the essence of <span className="text-[#00D4FF] font-semibold">Midnight Monsoon</span>
+              <br />
+              <span className="text-gray-400 text-lg">Where Every Moment Becomes a Memory</span>
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Gallery Categories - New Layout */}
-      <section className="container mx-auto px-6 pb-20">
-        <div className="max-w-7xl mx-auto divide-y divide-white/10">
+      {/* Gallery Grid - Professional Cards */}
+      <section className="container mx-auto px-6 py-24">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
           {galleryCategories.map((category, index) => (
-            <CategorySection
+            <CategoryCard
               key={category.id}
               category={category}
               index={index}
