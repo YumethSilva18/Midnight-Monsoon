@@ -1,12 +1,9 @@
 [build]
-  # Directory where your frontend code is located
-  base = "frontend"
-  
   # Build command
-  command = "npm run build"
+  command = "cd frontend && npm install && npm run build"
   
   # Directory where the build output is generated
-  publish = "dist"
+  publish = "frontend/dist"
 
 # Redirect all requests to index.html for client-side routing
 [[redirects]]
