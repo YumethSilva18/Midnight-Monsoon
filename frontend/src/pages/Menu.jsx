@@ -1,6 +1,8 @@
 import React, { memo, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Wine, Beer, Flame, Package, Coffee, Utensils, Droplets, Sparkles, Clock, MapPin, Phone } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
+import LazyImage from '../components/LazyImage';
 
 // Clean Menu Data - Names and Prices Only
 const menuData = {
@@ -152,44 +154,52 @@ const menuData = {
   }
 };
 
-// Clean Menu Item Component - Name and Price Only
-const MenuItem = memo(({ item, index, categoryColor }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 10 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.3 }}
-    transition={{ duration: 0.4, delay: index * 0.03 }}
-    className="border-b border-white/10 py-5 last:border-0 group hover:bg-white/5 transition-all duration-300 px-4 rounded-lg">
-    
-    <div className="flex justify-between items-start gap-6">
-      <div className="flex-1">
-        <h3 className="text-lg font-bold text-white mb-1 group-hover:text-[#FFC857] transition-colors duration-300">
-          {item.name}
-        </h3>
-        {item.desc && (
-          <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
-        )}
-      </div>
+// Clean Menu Item Component - Name and Price Only with Performance Optimization
+const MenuItem = memo(({ item, index, categoryColor }) => {
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+    rootMargin: '50px'
+  });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 10 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+      transition={{ duration: 0.4, delay: index * 0.03 }}
+      className="border-b border-white/10 py-5 last:border-0 group hover:bg-white/5 transition-all duration-300 px-4 rounded-lg">
       
-      <div className="text-right flex-shrink-0">
-        <div className="flex items-baseline gap-2">
-          <span className="text-xs text-gray-500 uppercase">LKR</span>
-          <span 
-            className="text-2xl font-black transition-colors duration-300"
-            style={{ color: categoryColor }}>
-            {item.price}
-          </span>
+      <div className="flex justify-between items-start gap-6">
+        <div className="flex-1">
+          <h3 className="text-lg font-bold text-white mb-1 group-hover:text-[#FFC857] transition-colors duration-300">
+            {item.name}
+          </h3>
+          {item.desc && (
+            <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
+          )}
         </div>
-        {item.bottlePrice && (
-          <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-xs text-gray-500">Bottle:</span>
-            <span className="text-base font-bold text-gray-400">{item.bottlePrice}</span>
+        
+        <div className="text-right flex-shrink-0">
+          <div className="flex items-baseline gap-2">
+            <span className="text-xs text-gray-500 uppercase">LKR</span>
+            <span 
+              className="text-2xl font-black transition-colors duration-300"
+              style={{ color: categoryColor }}>
+              {item.price}
+            </span>
           </div>
-        )}
+          {item.bottlePrice && (
+            <div className="flex items-baseline gap-2 mt-1">
+              <span className="text-xs text-gray-500">Bottle:</span>
+              <span className="text-base font-bold text-gray-400">{item.bottlePrice}</span>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  </motion.div>
-));
+    </motion.div>
+  );
+});
 
 MenuItem.displayName = 'MenuItem';
 
@@ -248,18 +258,14 @@ export function Menu() {
       className="min-h-screen bg-[#0A0A0A]">
       {/* Hero Section */}
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
+        {/* Background Image with Lazy Loading */}
         <div className="absolute inset-0">
-          <img
+          <LazyImage
             src="/Menupage-banner.jpg"
             alt="Menu Banner"
-            loading="eager"
-            fetchpriority="high"
             className="w-full h-full object-cover"
-            style={{
-              transform: 'translateZ(0)',
-              willChange: 'transform'
-            }}
+            width="100%"
+            height="70vh"
           />
         </div>
         

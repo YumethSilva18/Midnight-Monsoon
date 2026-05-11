@@ -1,6 +1,9 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
+import LazyImage from '../components/LazyImage';
+import SkeletonLoader from '../components/SkeletonLoader';
 
 // Gallery Categories Data
 const galleryCategories = [
@@ -196,110 +199,213 @@ const galleryCategories = [
   }
 ];
 
-// Memoized Category Card Component - Professional Design
-const CategoryCard = memo(({ category, onClick, index }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 60 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.2 }}
-    transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-    className="group relative">
-    
-    <div 
-      onClick={onClick}
-      className="relative h-[500px] rounded-3xl overflow-hidden cursor-pointer bg-black/40 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-500">
+// Memoized Category Card Component with Performance Optimizations
+const CategoryCard = memo(({ category, onClick, index }) => {
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+    rootMargin: '50px'
+  });
+
+  const handleClick = useCallback(() => {
+    onClick(category);
+  }, [category, onClick]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative">
       
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img
-          src={category.image}
-          alt={category.title}
-          loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-        <div className={`absolute inset-0 bg-gradient-to-t ${category.gradient} opacity-60`} />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-      </div>
-      
-      {/* Content */}
-      <div className="relative h-full flex flex-col justify-end p-8 md:p-10">
-        {/* Subtitle Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 + index * 0.1 }}
-          className="mb-4">
-          <span 
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] backdrop-blur-md border"
-            style={{ 
-              backgroundColor: `${category.accentColor}20`,
-              color: category.accentColor,
-              borderColor: `${category.accentColor}40`
-            }}>
-            <Sparkles size={14} />
-            {category.subtitle}
-          </span>
-        </motion.div>
-        
-        {/* Title */}
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 + index * 0.1 }}
-          className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight leading-none"
-          style={{ fontFamily: "'Playfair Display', serif" }}>
-          {category.title}
-        </motion.h2>
-        
-        {/* Explore Button */}
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 + index * 0.1 }}
-          className="group/btn inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold uppercase tracking-wider text-sm transition-all duration-300 backdrop-blur-md border-2 w-fit"
-          style={{
-            backgroundColor: `${category.accentColor}15`,
-            color: category.accentColor,
-            borderColor: `${category.accentColor}60`
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = category.accentColor;
-            e.currentTarget.style.color = '#000';
-            e.currentTarget.style.borderColor = category.accentColor;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = `${category.accentColor}15`;
-            e.currentTarget.style.color = category.accentColor;
-            e.currentTarget.style.borderColor = `${category.accentColor}60`;
-          }}>
-          <span>Explore Collection</span>
-          <ChevronRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-2" />
-        </motion.button>
-      </div>
-      
-      {/* Glow Effect on Hover */}
       <div 
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-          background: `radial-gradient(circle at center, ${category.glowColor}, transparent 70%)`
-        }}
-      />
-    </div>
-  </motion.div>
-));
+        onClick={handleClick}
+        className="relative h-[500px] rounded-3xl overflow-hidden cursor-pointer bg-black/40 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-500"
+        style={{ willChange: 'transform' }}>
+        
+        {/* Background Image with Lazy Loading */}
+        <div className="absolute inset-0">
+          {inView ? (
+            <LazyImage
+              src={category.image}
+              alt={category.title}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              width="100%"
+              height="500px"
+            />
+          ) : (
+            <SkeletonLoader height="500px" />
+          )}
+          <div className={`absolute inset-0 bg-gradient-to-t ${category.gradient} opacity-60`} />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+        </div>
+        
+        {/* Content */}
+        <div className="relative h-full flex flex-col justify-end p-8 md:p-10">
+          {/* Subtitle Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ delay: 0.3 + index * 0.1 }}
+            className="mb-4">
+            <span 
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] backdrop-blur-md border"
+              style={{ 
+                backgroundColor: `${category.accentColor}20`,
+                color: category.accentColor,
+                borderColor: `${category.accentColor}40`
+              }}>
+              <Sparkles size={14} />
+              {category.subtitle}
+            </span>
+          </motion.div>
+          
+          {/* Title */}
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ delay: 0.4 + index * 0.1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight leading-none"
+            style={{ fontFamily: "'Playfair Display', serif" }}>
+            {category.title}
+          </motion.h2>
+          
+          {/* Explore Button */}
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ delay: 0.5 + index * 0.1 }}
+            className="group/btn inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold uppercase tracking-wider text-sm transition-all duration-300 backdrop-blur-md border-2 w-fit"
+            style={{
+              backgroundColor: `${category.accentColor}15`,
+              color: category.accentColor,
+              borderColor: `${category.accentColor}60`
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = category.accentColor;
+              e.currentTarget.style.color = '#000';
+              e.currentTarget.style.borderColor = category.accentColor;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = `${category.accentColor}15`;
+              e.currentTarget.style.color = category.accentColor;
+              e.currentTarget.style.borderColor = `${category.accentColor}60`;
+            }}>
+            <span>Explore Collection</span>
+            <ChevronRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-2" />
+          </motion.button>
+        </div>
+        
+        {/* Glow Effect on Hover */}
+        <div 
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle at center, ${category.glowColor}, transparent 70%)`
+          }}
+        />
+      </div>
+    </motion.div>
+  );
+});
 
 CategoryCard.displayName = 'CategoryCard';
 
-// Memoized Gallery Modal Component - Professional Design with Masonry Layout
+// Optimized Gallery Image Component with Intersection Observer
+const GalleryImage = memo(({ img, index, category }) => {
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+    rootMargin: '100px'
+  });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+      transition={{ delay: 0.6 + index * 0.1 }}
+      className="break-inside-avoid relative rounded-2xl overflow-hidden group border border-white/10 hover:border-white/20 transition-all duration-500"
+      style={{
+        boxShadow: `0 10px 40px ${category.glowColor}`,
+        willChange: 'transform'
+      }}>
+      
+      {inView ? (
+        <LazyImage
+          src={img}
+          alt={`${category.title} ${index + 1}`}
+          className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+      ) : (
+        <SkeletonLoader height="300px" />
+      )}
+      
+      {/* Subtle Overlay */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{ 
+          background: `linear-gradient(135deg, ${category.accentColor}20, transparent 60%)` 
+        }}
+      />
+    </motion.div>
+  );
+});
+
+GalleryImage.displayName = 'GalleryImage';
+
+// Memoized Gallery Modal Component with Performance Optimizations
 const GalleryModal = memo(({ category, onClose }) => {
+  const [visibleImages, setVisibleImages] = useState(6);
+  
   // Scroll to top when modal opens
   React.useEffect(() => {
-    window.scrollTo(0, 0);
-    // Don't lock body scroll - let the modal handle its own scrolling
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.body.style.overflow = 'hidden';
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, []);
+
+  // Load more images on scroll
+  const loadMoreImages = useCallback(() => {
+    if (visibleImages < category.images.length) {
+      setVisibleImages(prev => Math.min(prev + 6, category.images.length));
+    }
+  }, [visibleImages, category.images.length]);
+
+  // Throttled scroll handler
+  React.useEffect(() => {
+    let timeoutId;
+    const handleScroll = () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        const scrollTop = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const docHeight = document.documentElement.offsetHeight;
+        
+        if (scrollTop + windowHeight >= docHeight - 1000) {
+          loadMoreImages();
+        }
+      }, 100);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [loadMoreImages]);
+
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
+  const displayedImages = useMemo(() => 
+    category.images.slice(0, visibleImages), 
+    [category.images, visibleImages]
+  );
 
   return (
     <motion.div
@@ -324,7 +430,7 @@ const GalleryModal = memo(({ category, onClose }) => {
             
             {/* Back Button */}
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="inline-flex items-center gap-3 px-8 py-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
               style={{ fontFamily: "'Inter', sans-serif" }}>
               <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
@@ -385,7 +491,7 @@ const GalleryModal = memo(({ category, onClose }) => {
             </div>
           </motion.div>
           
-          {/* Image Gallery - Masonry Layout for Portrait/Landscape */}
+          {/* Image Gallery - Optimized Masonry Layout */}
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -397,34 +503,23 @@ const GalleryModal = memo(({ category, onClose }) => {
             
             {/* Masonry Grid - Images maintain aspect ratio */}
             <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-              {category.images.map((img, idx) => (
-                <motion.div
+              {displayedImages.map((img, idx) => (
+                <GalleryImage
                   key={idx}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.6 + idx * 0.1 }}
-                  className="break-inside-avoid relative rounded-2xl overflow-hidden group border border-white/10 hover:border-white/20 transition-all duration-500"
-                  style={{
-                    boxShadow: `0 10px 40px ${category.glowColor}`
-                  }}>
-                  
-                  <img
-                    src={img}
-                    alt={`${category.title} ${idx + 1}`}
-                    loading="lazy"
-                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  
-                  {/* Subtle Overlay */}
-                  <div 
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{ 
-                      background: `linear-gradient(135deg, ${category.accentColor}20, transparent 60%)` 
-                    }}
-                  />
-                </motion.div>
+                  img={img}
+                  index={idx}
+                  category={category}
+                />
               ))}
             </div>
+
+            {/* Load More Indicator */}
+            {visibleImages < category.images.length && (
+              <div className="text-center mt-12">
+                <SkeletonLoader height="60px" width="200px" className="mx-auto" />
+                <p className="text-gray-400 mt-4">Loading more images...</p>
+              </div>
+            )}
           </motion.div>
         </div>
       </div>
@@ -437,6 +532,26 @@ GalleryModal.displayName = 'GalleryModal';
 export function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  const handleCategoryClick = useCallback((category) => {
+    setSelectedCategory(category);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setSelectedCategory(null);
+  }, []);
+
+  // Preload critical images
+  React.useEffect(() => {
+    const preloadImages = ['/Gallerypage-banner.jpg'];
+    preloadImages.forEach(src => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = src;
+      document.head.appendChild(link);
+    });
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -448,12 +563,12 @@ export function Gallery() {
       
       {/* Hero Section - Professional Typography */}
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
-        <img
+        <LazyImage
           src="/Gallerypage-banner.jpg"
           alt="Gallery Banner"
-          loading="eager"
-          fetchpriority="high"
           className="absolute inset-0 w-full h-full object-cover"
+          width="100%"
+          height="80vh"
         />
         
         <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-[#0A0A0A]" />
@@ -495,7 +610,7 @@ export function Gallery() {
               key={category.id}
               category={category}
               index={index}
-              onClick={() => setSelectedCategory(category)}
+              onClick={handleCategoryClick}
             />
           ))}
         </div>
@@ -506,7 +621,7 @@ export function Gallery() {
         {selectedCategory && (
           <GalleryModal
             category={selectedCategory}
-            onClose={() => setSelectedCategory(null)}
+            onClose={handleCloseModal}
           />
         )}
       </AnimatePresence>

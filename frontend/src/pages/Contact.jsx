@@ -2,6 +2,39 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Calendar, Users } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
+
+// Lazy Map Component
+const LazyMapFrame = () => {
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+    rootMargin: '100px'
+  });
+
+  return (
+    <div ref={ref} className="w-full h-full">
+      {inView ? (
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798511757672!2d79.8485!3d6.9147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae259410ef5d6d9%3A0x1d3065101f3d76ff!2sGalle%20Rd%2C%20Colombo!5e0!3m2!1sen!2slk!4v1620000000000!5m2!1sen!2slk"
+          width="100%"
+          height="100%"
+          style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)' }}
+          allowFullScreen=""
+          loading="lazy"
+          title="Midnight Monsoon Location">
+        </iframe>
+      ) : (
+        <div className="w-full h-full bg-gray-800 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00D4FF] mx-auto mb-4"></div>
+            <p className="text-gray-400">Loading map...</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export function Contact() {
   // Animation variants
@@ -372,7 +405,7 @@ export function Contact() {
             viewport={{ once: true, amount: 0.2 }}
             className="space-y-8">
             
-            {/* Map with Pop Up Animation */}
+            {/* Map with Pop Up Animation and Lazy Loading */}
             <motion.div 
               className="rounded-3xl overflow-hidden h-[440px] neon-border-blue"
               initial={{ scale: 0.9, opacity: 0, rotateX: 10 }}
@@ -388,15 +421,7 @@ export function Contact() {
                 scale: 1.02,
                 boxShadow: "0 25px 50px rgba(0, 212, 255, 0.3)"
               }}>
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798511757672!2d79.8485!3d6.9147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae259410ef5d6d9%3A0x1d3065101f3d76ff!2sGalle%20Rd%2C%20Colombo!5e0!3m2!1sen!2slk!4v1620000000000!5m2!1sen!2slk"
-                width="100%"
-                height="100%"
-                style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)' }}
-                allowFullScreen=""
-                loading="lazy"
-                title="Midnight Monsoon Location">
-              </iframe>
+              <LazyMapFrame />
             </motion.div>
 
             {/* Reservations Info with Slide In */}

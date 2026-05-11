@@ -1,0 +1,56 @@
+/*
+  # Security Headers
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  
+  # Performance Headers
+  Cache-Control: public, max-age=31536000, immutable
+  
+# HTML files
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# JavaScript and CSS files
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Encoding: gzip
+
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Encoding: gzip
+
+# Images
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Encoding: gzip
+
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Encoding: gzip
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Encoding: gzip
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Encoding: gzip
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Encoding: gzip
+
+# Fonts
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Encoding: gzip
+
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Encoding: gzip
+
+# API routes (if any)
+/api/*
+  Cache-Control: no-cache, no-store, must-revalidate
