@@ -1,9 +1,12 @@
 [build]
-  # Build command
-  command = "cd frontend && npm install && npm run build"
+  # Set base directory to frontend subfolder
+  base = "frontend"
   
-  # Directory where the build output is generated
-  publish = "frontend/dist"
+  # Build command (runs from frontend directory)
+  command = "npm ci && npm run build"
+  
+  # Publish directory (relative to base)
+  publish = "dist"
 
 # Redirect all requests to index.html for client-side routing
 [[redirects]]
@@ -11,6 +14,6 @@
   to = "/index.html"
   status = 200
 
-# Optional: Set Node version
+# Set Node version
 [build.environment]
   NODE_VERSION = "18"
