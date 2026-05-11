@@ -2,19 +2,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Calendar, Users } from 'lucide-react';
-import { useInView } from 'react-intersection-observer';
 
 // Lazy Map Component
 const LazyMapFrame = () => {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-    rootMargin: '100px'
-  });
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div ref={ref} className="w-full h-full">
-      {inView ? (
+    <div className="w-full h-full">
+      {isLoaded ? (
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798511757672!2d79.8485!3d6.9147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae259410ef5d6d9%3A0x1d3065101f3d76ff!2sGalle%20Rd%2C%20Colombo!5e0!3m2!1sen!2slk!4v1620000000000!5m2!1sen!2slk"
           width="100%"

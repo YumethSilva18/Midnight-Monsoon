@@ -1,7 +1,6 @@
 import React, { memo, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Wine, Beer, Flame, Package, Coffee, Utensils, Droplets, Sparkles, Clock, MapPin, Phone } from 'lucide-react';
-import { useInView } from 'react-intersection-observer';
 import LazyImage from '../components/LazyImage';
 
 // Clean Menu Data - Names and Prices Only
@@ -156,17 +155,11 @@ const menuData = {
 
 // Clean Menu Item Component - Name and Price Only with Performance Optimization
 const MenuItem = memo(({ item, index, categoryColor }) => {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-    rootMargin: '50px'
-  });
-
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 10 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.4, delay: index * 0.03 }}
       className="border-b border-white/10 py-5 last:border-0 group hover:bg-white/5 transition-all duration-300 px-4 rounded-lg">
       

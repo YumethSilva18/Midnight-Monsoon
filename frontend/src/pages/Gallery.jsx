@@ -1,7 +1,6 @@
 import React, { memo, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ArrowLeft, Sparkles } from 'lucide-react';
-import { useInView } from 'react-intersection-observer';
 import LazyImage from '../components/LazyImage';
 import SkeletonLoader from '../components/SkeletonLoader';
 
@@ -201,21 +200,15 @@ const galleryCategories = [
 
 // Memoized Category Card Component with Performance Optimizations
 const CategoryCard = memo(({ category, onClick, index }) => {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-    rootMargin: '50px'
-  });
-
   const handleClick = useCallback(() => {
     onClick(category);
   }, [category, onClick]);
 
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 60 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
       className="group relative">
       
@@ -226,17 +219,13 @@ const CategoryCard = memo(({ category, onClick, index }) => {
         
         {/* Background Image with Lazy Loading */}
         <div className="absolute inset-0">
-          {inView ? (
-            <LazyImage
-              src={category.image}
-              alt={category.title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              width="100%"
-              height="500px"
-            />
-          ) : (
-            <SkeletonLoader height="500px" />
-          )}
+          <LazyImage
+            src={category.image}
+            alt={category.title}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            width="100%"
+            height="500px"
+          />
           <div className={`absolute inset-0 bg-gradient-to-t ${category.gradient} opacity-60`} />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
         </div>
@@ -246,7 +235,8 @@ const CategoryCard = memo(({ category, onClick, index }) => {
           {/* Subtitle Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.3 + index * 0.1 }}
             className="mb-4">
             <span 
@@ -264,7 +254,8 @@ const CategoryCard = memo(({ category, onClick, index }) => {
           {/* Title */}
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.4 + index * 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight leading-none"
             style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -274,7 +265,8 @@ const CategoryCard = memo(({ category, onClick, index }) => {
           {/* Explore Button */}
           <motion.button
             initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.5 + index * 0.1 }}
             className="group/btn inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold uppercase tracking-wider text-sm transition-all duration-300 backdrop-blur-md border-2 w-fit"
             style={{
@@ -311,19 +303,13 @@ const CategoryCard = memo(({ category, onClick, index }) => {
 
 CategoryCard.displayName = 'CategoryCard';
 
-// Optimized Gallery Image Component with Intersection Observer
+// Optimized Gallery Image Component
 const GalleryImage = memo(({ img, index, category }) => {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-    rootMargin: '100px'
-  });
-
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, scale: 0.95 }}
-      animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ delay: 0.6 + index * 0.1 }}
       className="break-inside-avoid relative rounded-2xl overflow-hidden group border border-white/10 hover:border-white/20 transition-all duration-500"
       style={{
@@ -331,15 +317,11 @@ const GalleryImage = memo(({ img, index, category }) => {
         willChange: 'transform'
       }}>
       
-      {inView ? (
-        <LazyImage
-          src={img}
-          alt={`${category.title} ${index + 1}`}
-          className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-      ) : (
-        <SkeletonLoader height="300px" />
-      )}
+      <LazyImage
+        src={img}
+        alt={`${category.title} ${index + 1}`}
+        className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+      />
       
       {/* Subtle Overlay */}
       <div 

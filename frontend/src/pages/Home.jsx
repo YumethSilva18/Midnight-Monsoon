@@ -1,316 +1,216 @@
-import React, { memo, useMemo, useCallback } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Star, Calendar, Music } from 'lucide-react';
-import { ServicesShowcase } from '../components/ServicesShowcase';
-import LazyImage from '../components/LazyImage';
 
-// Preload critical images
-const preloadImage = (src) => {
-  const link = document.createElement('link');
-  link.rel = 'preload';
-  link.as = 'image';
-  link.href = src;
-  document.head.appendChild(link);
-};
-
-// Memoized Hero Section with optimized images
-const HeroSection = memo(() => {
-  // Preload hero image on component mount
-  React.useEffect(() => {
-    preloadImage('/Homepage-mainbanner2.jpg');
-  }, []);
-
+export function Home() {
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Optimized Background Image with WebP support */}
-      <div className="absolute inset-0 z-0">
-        <picture>
-          <source srcSet="/Homepage-mainbanner2.webp" type="image/webp" />
-          <LazyImage
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-screen bg-[#0A0A0A]">
+      
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
             src="/Homepage-mainbanner2.jpg"
             className="w-full h-full object-cover"
             alt="Midnight Monsoon Nightlife Background"
             loading="eager"
-            fetchpriority="high"
-            width={1920}
-            height={1080}
           />
-        </picture>
-        
-        {/* Optimized Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0A0A0A]" />
-        
-        {/* Subtle Pattern Overlay - GPU accelerated */}
-        <div 
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-            backgroundSize: '30px 30px',
-            willChange: 'transform'
-          }} 
-        />
-      </div>
-      
-      {/* Optimized Ambient Glow Effects */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none z-5">
-        <div 
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00D4FF] rounded-full blur-[150px] animate-pulse"
-          style={{ willChange: 'opacity' }}
-        />
-        <div 
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white rounded-full blur-[150px] animate-pulse" 
-          style={{ animationDelay: '1s', willChange: 'opacity' }} 
-        />
-      </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0A0A0A]" />
+        </div>
 
-      <div className="container mx-auto px-6 relative z-10 text-center">
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          style={{ willChange: 'transform, opacity' }}
-        >
-          <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tighter">
-            MIDNIGHT <span className="text-[#00D4FF] neon-text-blue">MONSOON</span>
-          </h1>
-          <p className="text-2xl md:text-3xl text-shine-white font-bold mb-4 tracking-wide">
-            Not every night can handle the rain.
-          </p>
-          <p className="text-lg md:text-xl text-white max-w-2xl mx-auto mb-10 font-light leading-relaxed drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]">
-            Sri Lanka's boldest after-dark experience – reserved for the wild at heart.
-          </p>
-          <div className="flex justify-center">
-            <Link 
-              to="/gallery" 
-              className="px-6 py-2 text-sm bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-all duration-300"
-            >
-              View Gallery
-            </Link>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-});
-
-HeroSection.displayName = 'HeroSection';
-
-// Memoized vibe feature component with performance optimizations
-const VibeFeature = memo(({ icon: Icon, title, description, color }) => (
-  <motion.div 
-    className="flex items-start space-x-4"
-    whileInView={{ opacity: 1, x: 0 }}
-    initial={{ opacity: 0, x: -20 }}
-    viewport={{ once: true, margin: "-50px" }}
-    transition={{ duration: 0.5 }}
-  >
-    <div className={`w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center ${color} shrink-0`}>
-      <Icon size={24} />
-    </div>
-    <div>
-      <h4 className="text-xl font-bold mb-1">{title}</h4>
-      <p className="text-gray-400">{description}</p>
-    </div>
-  </motion.div>
-));
-
-VibeFeature.displayName = 'VibeFeature';
-
-// Memoized Vibe Section with lazy loaded image
-const VibeSection = memo(() => {
-  const vibeFeatures = useMemo(() => [
-    {
-      icon: Music,
-      title: "Live DJ Sets",
-      description: "9 PM – 2 AM. Deep house & tropical rhythms.",
-      color: "text-[#00D4FF]"
-    },
-    {
-      icon: Star,
-      title: "Happy Hour",
-      description: "5 PM – 8 PM. 2-for-1 on all local spirits.",
-      color: "text-white"
-    },
-    {
-      icon: Calendar,
-      title: "Karaoke Nights",
-      description: "Every Wednesday. Unleash your inner star.",
-      color: "text-[#00D4FF]"
-    }
-  ], []);
-
-  return (
-    <section className="relative py-24 bg-[#0F0F0F] overflow-hidden">
-      {/* Optimized Background Layers */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#0F0F0F] to-[#0A0A0A]" />
-        <div 
-          className="absolute inset-0 opacity-5" 
-          style={{
-            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-            backgroundSize: '40px 40px'
-          }} 
-        />
-      </div>
-      
-      {/* Optimized Ambient Glow Effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#00D4FF] rounded-full blur-[150px] opacity-20" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-[150px] opacity-10" />
-      </div>
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* Hero Content */}
+        <div className="container mx-auto px-6 relative z-10 text-center">
           <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <h2 className="text-5xl font-bold mb-8 leading-tight">
-              Tonight's <span className="text-[#00D4FF]">Electric Vibe</span>
-            </h2>
-            <div className="space-y-8">
-              {vibeFeatures.map((feature) => (
-                <VibeFeature key={feature.title} {...feature} />
-              ))}
-            </div>
-            <Link to="/contact" className="btn-secondary inline-block mt-12">
-              Reserve a Table
-            </Link>
-          </motion.div>
-          
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative"
-          >
-            <div className="aspect-square rounded-3xl overflow-hidden neon-border-blue">
-              <LazyImage 
-                src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80" 
-                className="w-full h-full object-cover" 
-                alt="DJ Performance at Midnight Monsoon"
-                width={800}
-                height={800}
-                placeholderSrc="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=50&q=20"
-              />
-            </div>
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}>
+            
+            <motion.h1 
+              className="text-6xl md:text-8xl font-black mb-8 tracking-tight"
+              style={{ fontFamily: "'Playfair Display', serif" }}>
+              MIDNIGHT <span className="text-[#00D4FF]">MONSOON</span>
+            </motion.h1>
+            
+            <motion.p 
+              className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 font-light leading-relaxed"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}>
+              Where the night comes alive with <span className="text-[#00D4FF] font-semibold">electric energy</span>, 
+              <br />premium drinks, and <span className="text-[#FFC857] font-semibold">unforgettable moments</span>
+            </motion.p>
+
             <motion.div 
-              className="absolute -bottom-6 -right-6 glass-card p-8 max-w-[200px]"
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, type: "spring" }}
-            >
-              <p className="text-4xl font-black text-[#00D4FF] mb-1">95%</p>
-              <p className="text-xs uppercase tracking-widest text-gray-400">Capacity Tonight</p>
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}>
+              
+              <Link 
+                to="/menu"
+                className="btn-primary group">
+                <span>Explore Menu</span>
+                <Star className="w-5 h-5 ml-2 transition-transform group-hover:rotate-12" />
+              </Link>
+              
+              <Link 
+                to="/gallery"
+                className="btn-secondary group">
+                <span>View Gallery</span>
+                <Music className="w-5 h-5 ml-2 transition-transform group-hover:scale-110" />
+              </Link>
             </motion.div>
           </motion.div>
         </div>
-      </div>
-    </section>
-  );
-});
 
-VibeSection.displayName = 'VibeSection';
-
-export const Home = memo(() => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      style={{ willChange: 'opacity, transform' }}
-      className="w-full relative"
-    >
-      {/* Optimized Base Background */}
-      <div className="fixed inset-0 -z-10 bg-[#0A0A0A]">
-        <div 
-          className="absolute inset-0 opacity-5" 
-          style={{
-            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
-          }} 
+        {/* Floating Elements */}
+        <motion.div
+          className="absolute top-1/4 left-10 w-4 h-4 bg-[#00D4FF] rounded-full opacity-60"
+          animate={{ 
+            y: [0, -20, 0],
+            opacity: [0.6, 1, 0.6]
+          }}
+          transition={{ 
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-[#0F0F0F] to-[#0A0A0A]" />
-      </div>
-      
-      {/* Hero Section */}
-      <HeroSection />
+        
+        <motion.div
+          className="absolute bottom-1/3 right-16 w-6 h-6 bg-[#FFC857] rounded-full opacity-40"
+          animate={{ 
+            y: [0, 15, 0],
+            opacity: [0.4, 0.8, 0.4]
+          }}
+          transition={{ 
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+        />
+      </section>
 
-      {/* Services Showcase */}
-      <ServicesShowcase />
-
-      {/* Partnership Promo Banner */}
-      <section className="relative py-24 bg-[#0A0A0A] overflow-hidden">
-        <div className="absolute inset-0 opacity-5" style={{
-          backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }} />
-        
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-[#0F0F0F] to-[#0A0A0A]" />
-        
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00D4FF] rounded-full blur-[150px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white rounded-full blur-[150px]" />
-        </div>
-        
-        <div className="container mx-auto px-6 relative z-10">
+      {/* Featured Services Section */}
+      <section className="py-24 bg-gradient-to-b from-[#0A0A0A] to-[#111111]">
+        <div className="container mx-auto px-6">
           <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8 }}
-            className="relative overflow-hidden rounded-3xl border border-white/10 backdrop-blur-sm"
-          >
-            <div className="absolute inset-0">
-              <LazyImage
-                src="/Homepage-mainbanner2.jpg"
-                alt="After Midnight Monsoon Partnership"
-                className="w-full h-full object-cover opacity-30"
-                width={1200}
-                height={600}
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/90" />
-            </div>
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16">
+            
+            <h2 className="text-4xl md:text-6xl font-black mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+              EXPERIENCE THE <span className="text-[#00D4FF]">MONSOON</span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Immerse yourself in our world of premium entertainment, exquisite dining, and electric nightlife
+            </p>
+          </motion.div>
 
-            <div className="relative z-10 p-12 md:p-16 text-center">
-              <div className="inline-block mb-6">
-                <span className="bg-[#00D4FF] text-black text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest">
-                  Nearby Events
-                </span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Drinks */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="glass-card p-8 text-center group hover:bg-white/10 transition-all duration-300">
+              
+              <div className="w-16 h-16 bg-[#F59E0B]/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Star className="text-[#F59E0B]" size={32} />
               </div>
-
-              <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">
-                After <span className="text-[#00D4FF]">Midnight Monsoon</span>?
-              </h2>
-
-              <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light">
-                Walk to <span className="text-white font-bold">'The Sky Lounge'</span>
+              
+              <h3 className="text-2xl font-bold mb-4 text-[#F59E0B]">Premium Drinks</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Signature cocktails, craft beers, and premium spirits crafted by expert mixologists
               </p>
+            </motion.div>
 
-              <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-md border border-[#00D4FF]/30 rounded-full px-8 py-4 mb-8">
-                <Star className="text-[#00D4FF]" size={24} />
-                <span className="text-2xl font-bold text-[#00D4FF]">10% OFF</span>
-                <span className="text-gray-400">with our stamp</span>
+            {/* Entertainment */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="glass-card p-8 text-center group hover:bg-white/10 transition-all duration-300">
+              
+              <div className="w-16 h-16 bg-[#A855F7]/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Music className="text-[#A855F7]" size={32} />
               </div>
-
-              <p className="text-sm text-gray-500 max-w-2xl mx-auto">
-                Extend your night out with our exclusive partnership. Show your Midnight Monsoon stamp at The Sky Lounge and enjoy special discounts.
+              
+              <h3 className="text-2xl font-bold mb-4 text-[#A855F7]">Live Entertainment</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Electric nights with live DJs, music performances, and an energetic dance floor
               </p>
+            </motion.div>
+
+            {/* VIP Experience */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="glass-card p-8 text-center group hover:bg-white/10 transition-all duration-300">
+              
+              <div className="w-16 h-16 bg-[#00D4FF]/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Calendar className="text-[#00D4FF]" size={32} />
+              </div>
+              
+              <h3 className="text-2xl font-bold mb-4 text-[#00D4FF]">VIP Experience</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Exclusive VIP booths, bottle service, and personalized attention for unforgettable nights
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-24 bg-gradient-to-r from-[#00D4FF]/10 via-[#FF007F]/10 to-[#FFC857]/10">
+        <div className="container mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto">
+            
+            <h2 className="text-4xl md:text-6xl font-black mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
+              READY FOR THE <span className="text-[#00D4FF]">STORM</span>?
+            </h2>
+            
+            <p className="text-xl text-gray-300 mb-12 leading-relaxed">
+              Join us for an electrifying night where every moment becomes a memory. 
+              <br />Experience Colombo's most exclusive nightlife destination.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link 
+                to="/contact"
+                className="btn-primary group text-lg px-12 py-4">
+                <span>Make Reservation</span>
+                <Calendar className="w-6 h-6 ml-3 transition-transform group-hover:scale-110" />
+              </Link>
+              
+              <a 
+                href="tel:+94771234567"
+                className="btn-secondary group text-lg px-12 py-4">
+                <span>Call Now</span>
+                <span className="ml-3 font-bold">+94 77 123 4567</span>
+              </a>
             </div>
           </motion.div>
         </div>
       </section>
-
-      {/* Vibe Section */}
-      <VibeSection />
     </motion.div>
   );
-});
-
-Home.displayName = 'Home';
+}
