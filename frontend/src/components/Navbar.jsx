@@ -99,7 +99,7 @@ export const Navbar = memo(() => {
             onClick={closeMenu}
           >
             <span className="text-white">MIDNIGHT</span>
-            <span className="text-[#00D4FF] neon-text-blue ml-2">MONSOON</span>
+            <span className="text-[#e7c365] ml-2" style={{ filter: 'drop-shadow(0 0 8px rgba(231, 195, 101, 0.8))' }}>MONSOON</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -108,13 +108,13 @@ export const Navbar = memo(() => {
               <Link
                 key={link.path}
                 to={link.path}
-                className="relative text-sm font-medium tracking-widest uppercase text-white hover:text-[#00D4FF] transition-colors duration-300"
+                className="relative text-sm font-medium tracking-widest uppercase text-white hover:text-[#cfbcff] transition-colors duration-300"
               >
                 {link.name}
                 {location.pathname === link.path && (
                   <motion.div
                     layoutId="underline"
-                    className="absolute -bottom-2 left-0 w-full h-0.5 bg-[#00D4FF] shadow-[0_0_8px_#00D4FF]"
+                    className="absolute -bottom-2 left-0 w-full h-0.5 bg-[#cfbcff] shadow-[0_0_8px_#cfbcff]"
                     initial={false}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
@@ -125,7 +125,7 @@ export const Navbar = memo(() => {
 
           {/* Mobile Menu Button - Always visible */}
           <button 
-            className="md:hidden text-white z-50 relative p-2 hover:text-[#00D4FF] transition-colors"
+            className="md:hidden text-white z-50 relative p-2 hover:text-[#cfbcff] transition-colors"
             onClick={openMenu}
             aria-label="Open mobile menu"
           >
@@ -162,7 +162,7 @@ export const Navbar = memo(() => {
             >
               {/* Close Button */}
               <button 
-                className="self-end mb-12 text-[#FF007F] p-2 hover:bg-white/10 rounded-full transition-colors"
+                className="self-end mb-12 text-[#e7c365] p-2 hover:bg-white/10 rounded-full transition-colors"
                 onClick={closeMenu}
                 aria-label="Close mobile menu"
               >
@@ -183,8 +183,8 @@ export const Navbar = memo(() => {
                       onClick={closeMenu}
                       className={`text-2xl font-bold tracking-widest uppercase transition-colors duration-300 block py-2 ${
                         location.pathname === link.path 
-                          ? 'text-[#00D4FF]' 
-                          : 'text-white hover:text-[#00D4FF]'
+                          ? 'text-[#cfbcff]' 
+                          : 'text-white hover:text-[#cfbcff]'
                       }`}
                     >
                       {link.name}
@@ -201,7 +201,7 @@ export const Navbar = memo(() => {
                 transition={{ delay: 0.5 }}
               >
                 <p className="text-gray-500 text-sm">42 Galle Road, Colombo 03</p>
-                <p className="text-[#00D4FF] mt-2 font-semibold">+94 77 123 4567</p>
+                <p className="text-[#cfbcff] mt-2 font-semibold">+94 77 123 4567</p>
                 <p className="text-gray-400 text-xs mt-2">Open Daily 6PM - 2AM</p>
               </motion.div>
             </motion.div>
