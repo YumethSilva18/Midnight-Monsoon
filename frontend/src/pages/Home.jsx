@@ -19,6 +19,7 @@ import {
   MapPin,
   Phone
 } from 'lucide-react';
+import { ServicesHorizontalLoop } from '../components/ServicesHorizontalLoop';
 
 // Preload critical images
 const preloadImage = (src) => {
@@ -452,6 +453,9 @@ export function Home() {
       
       {/* Hero Section with Main Banner */}
       <HeroSection />
+
+      {/* Services Horizontal Loop - New Component */}
+      <ServicesHorizontalLoop />
 
       {/* Services Showcase - Auto-scrolling Section */}
       <ServicesShowcase />
