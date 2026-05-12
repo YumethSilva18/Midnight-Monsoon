@@ -1,7 +1,6 @@
 import React, { memo, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Wine, Beer, Flame, Package, Coffee, Utensils, Droplets, Sparkles, Clock, MapPin, Phone } from 'lucide-react';
-import LazyImage from '../components/LazyImage';
 
 // Clean Menu Data - Names and Prices Only
 const menuData = {
@@ -249,16 +248,15 @@ export function Menu() {
       transition={{ duration: 0.3, ease: "easeInOut" }}
       style={{ willChange: 'opacity, transform' }}
       className="min-h-screen bg-[#0A0A0A]">
-      {/* Hero Section */}
+      {/* Hero Section with Menu Banner */}
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image with Lazy Loading */}
+        {/* Background Image */}
         <div className="absolute inset-0">
-          <LazyImage
+          <img
             src="/Menupage-banner.jpg"
             alt="Menu Banner"
             className="w-full h-full object-cover"
-            width="100%"
-            height="70vh"
+            loading="eager"
           />
         </div>
         

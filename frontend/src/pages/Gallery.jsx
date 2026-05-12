@@ -1,7 +1,6 @@
 import React, { memo, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ArrowLeft, Sparkles } from 'lucide-react';
-import LazyImage from '../components/LazyImage';
 import SkeletonLoader from '../components/SkeletonLoader';
 
 // Gallery Categories Data
@@ -219,12 +218,11 @@ const CategoryCard = memo(({ category, onClick, index }) => {
         
         {/* Background Image with Lazy Loading */}
         <div className="absolute inset-0">
-          <LazyImage
+          <img
             src={category.image}
             alt={category.title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            width="100%"
-            height="500px"
+            loading="lazy"
           />
           <div className={`absolute inset-0 bg-gradient-to-t ${category.gradient} opacity-60`} />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
@@ -317,10 +315,11 @@ const GalleryImage = memo(({ img, index, category }) => {
         willChange: 'transform'
       }}>
       
-      <LazyImage
+      <img
         src={img}
         alt={`${category.title} ${index + 1}`}
         className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+        loading="lazy"
       />
       
       {/* Subtle Overlay */}
@@ -545,12 +544,11 @@ export function Gallery() {
       
       {/* Hero Section - Professional Typography */}
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
-        <LazyImage
+        <img
           src="/Gallerypage-banner.jpg"
           alt="Gallery Banner"
           className="absolute inset-0 w-full h-full object-cover"
-          width="100%"
-          height="80vh"
+          loading="eager"
         />
         
         <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-[#0A0A0A]" />

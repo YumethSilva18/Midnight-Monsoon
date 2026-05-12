@@ -1,4 +1,4 @@
-import React, { useState, memo, useRef } from 'react';
+import React, { useState, memo, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { 
   Wine, 
@@ -16,7 +16,7 @@ const services = [
     category: "DRINKS",
     title: "Liquid Artistry",
     icon: Wine,
-    image: "/Drinks-Liquid-Artistry.jpg",
+    image: "/Gallery/Drinks/Drinks-main.jpg",
     items: [
       "Signature Cocktails",
       "Craft Beers",
@@ -33,7 +33,7 @@ const services = [
     category: "FOODS",
     title: "Culinary Excellence",
     icon: UtensilsCrossed,
-    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=80",
+    image: "/Gallery/Foods/kobby-mendez-idTwDKt2j2o-unsplash.jpg",
     items: [
       "Late-Night Dining",
       "Gourmet Burgers",
@@ -50,7 +50,7 @@ const services = [
     category: "ENTERTAINMENT",
     title: "Electric Nights",
     icon: Music,
-    image: "/Entertainment-Electric-Nights.jpg",
+    image: "/Gallery/Entertainment/aleksandr-popov-DPspiXW2zWg-unsplash.jpg",
     items: [
       "Live DJ & Music",
       "Dance Floor",
@@ -67,7 +67,7 @@ const services = [
     category: "LOUNGE & EXPERIENCE",
     title: "Elevated Comfort",
     icon: Sofa,
-    image: "/Elevated-comfort.jpg",
+    image: "/Gallery/Lounge & Experience/stanislav-knopp-nawaKdBv75c-unsplash.jpg",
     items: [
       "Hookah Lounge / Shisha",
       "VIP Booths",
@@ -84,7 +84,7 @@ const services = [
     category: "EVENTS & SOCIAL",
     title: "Unforgettable Moments",
     icon: PartyPopper,
-    image: "/Unforgettable-moments.jpg",
+    image: "/Gallery/Event & Social/matty-adame-nLUb9GThIcg-unsplash (1).jpg",
     items: [
       "Birthday Celebrations",
       "Corporate Events",
@@ -101,305 +101,247 @@ const services = [
     category: "PREMIUM SERVICES",
     title: "VIP Treatment",
     icon: Crown,
-    image: "/Mixology.jpg",
+    image: "/Gallery/Premium Services/jordan-graff-9TBgvuPAe0Y-unsplash.jpg",
     items: [
       "Table Reservations",
       "Valet Parking",
       "Mixology Experience",
       "Personalized Bottle Packages",
       "Premium Guest Service",
-      "Security & Private Access",
-      "Concierge Service",
-      "VIP Entry"
-    ]
-  },
-  {
-    id: 7,
-    category: "ATMOSPHERE & AMBIENCE",
-    title: "Sensory Journey",
-    icon: Sparkles,
-    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1200&q=80",
-    items: [
-      "Neon Nightlife",
-      "Chill Vibes",
-      "Elegant Dining",
-      "Sunset Sessions",
-      "After-Hours Clubbing",
-      "Rainy Night Lounge",
-      "Urban Luxury Experience",
-      "Monsoon Atmosphere"
+      "Security & Private Access"
     ]
   }
 ];
 
-export function ServicesShowcase() {
-  const [isDragging, setIsDragging] = useState(false);
-  const [pauseAnimation, setPauseAnimation] = useState(false);
-  const containerRef = useRef(null);
-  const dragStartX = useRef(0);
-  const hasDragged = useRef(false);
-
-  const handleDragStart = (event, info) => {
-    setIsDragging(true);
-    setPauseAnimation(true);
-    dragStartX.current = info.point.x;
-    hasDragged.current = false;
-  };
-
-  const handleDrag = (event, info) => {
-    // Check if user has dragged more than 5px
-    if (Math.abs(info.point.x - dragStartX.current) > 5) {
-      hasDragged.current = true;
-    }
-  };
-
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    // Resume animation after 2 seconds
-    setTimeout(() => {
-      setPauseAnimation(false);
-    }, 2000);
-  };
-
-  const handleTouchStart = () => {
-    setPauseAnimation(true);
-    hasDragged.current = false;
-  };
-
-  const handleTouchMove = () => {
-    hasDragged.current = true;
-  };
-
-  const handleTouchEnd = () => {
-    setTimeout(() => {
-      setPauseAnimation(false);
-    }, 2000);
-  };
-
-  return (
-    <section className="relative py-24 bg-gradient-to-b from-[#0A0A0A] via-[#111111] to-[#0A0A0A] overflow-hidden">
-      {/* Quality Background Effects */}
-      <div className="absolute inset-0 opacity-30 pointer-events-none">
-        <div className="absolute top-20 left-1/4 w-96 h-96 bg-[#00D4FF] rounded-full blur-[150px]" />
-        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-white rounded-full blur-[150px]" />
-      </div>
-      
-      {/* Solid Background Pattern */}
-      <div className="absolute inset-0 opacity-5" style={{
-        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-        backgroundSize: '50px 50px'
-      }} />
-
-      {/* Section Header */}
-      <div className="container mx-auto px-6 mb-16 relative z-10">
-        <div className="text-center">
-          <h2 className="text-4xl md:text-6xl font-black mb-4 tracking-tight">
-            Explore Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#00D4FF] to-white">Signature Experiences</span>
-          </h2>
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto font-light">
-            From handcrafted cocktails to unforgettable nights.
-          </p>
-        </div>
-      </div>
-
-      {/* Infinite Scrolling Container */}
-      <div className="relative" ref={containerRef}>
-        {/* Gradient Fade Edges */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-[#111111] to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-[#111111] to-transparent z-10 pointer-events-none" />
-
-        {/* Scrolling Track */}
-        <div 
-          className="overflow-hidden"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}>
-          <motion.div 
-            className="flex gap-6 md:gap-8"
-            drag="x"
-            dragConstraints={{ left: -3000, right: 100 }}
-            dragElastic={0.02}
-            dragTransition={{ 
-              power: 0.3,
-              timeConstant: 200,
-              modifyTarget: (target) => Math.round(target / 408) * 408
-            }}
-            onDragStart={handleDragStart}
-            onDrag={handleDrag}
-            onDragEnd={handleDragEnd}
-            style={{ 
-              cursor: isDragging ? 'grabbing' : 'grab',
-              animation: !pauseAnimation ? 'infiniteScroll 60s linear infinite' : 'none',
-              willChange: 'transform'
-            }}>
-            
-            {/* Render cards 3 times for seamless loop */}
-            {[...Array(3)].map((_, setIndex) => (
-              <React.Fragment key={`set-${setIndex}`}>
-                {services.map((service) => (
-                  <ServiceCard 
-                    key={`${setIndex}-${service.id}`} 
-                    service={service}
-                    isDragging={isDragging}
-                    hasDragged={hasDragged}
-                  />
-                ))}
-              </React.Fragment>
-            ))}
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Bottom Instruction */}
-      <div className="text-center mt-12 relative z-10">
-        <p className="text-xs md:text-sm text-gray-500 uppercase tracking-widest">
-          <span className="hidden md:inline">Drag to explore • </span>Swipe to browse all experiences
-        </p>
-      </div>
-
-      {/* CSS Animation - Fixed for smooth loop */}
-      <style jsx>{`
-        @keyframes infiniteScroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(calc(-1 * (408px * 7)));
-          }
-        }
-        
-        @media (max-width: 768px) {
-          @keyframes infiniteScroll {
-            0% {
-              transform: translateX(0);
-            }
-            100% {
-              transform: translateX(calc(-1 * (344px * 7)));
-            }
-          }
-        }
-      `}</style>
-    </section>
-  );
-}
-
-// Memoized ServiceCard with reduced hover interaction
-const ServiceCard = memo(({ service, isDragging, hasDragged }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    if (!isDragging && !hasDragged.current) {
-      setIsHovered(true);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
+// Auto-scrolling service card component
+const ServiceCard = memo(({ service, isActive, onClick }) => {
+  const IconComponent = service.icon;
+  
   return (
     <motion.div
-      className="relative flex-shrink-0 w-[320px] md:w-[400px] h-[480px] md:h-[550px] rounded-2xl md:rounded-3xl overflow-hidden select-none"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      whileHover={!isDragging && !hasDragged.current ? { scale: 1.02, y: -5 } : {}}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      style={{ 
-        willChange: 'transform',
-        pointerEvents: isDragging ? 'none' : 'auto'
+      className={`relative min-w-[400px] h-[600px] rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ${
+        isActive ? 'scale-105 shadow-2xl' : 'scale-95 opacity-70'
+      }`}
+      onClick={onClick}
+      whileHover={{ scale: isActive ? 1.08 : 1.02 }}
+      style={{
+        boxShadow: isActive ? '0 25px 50px rgba(0, 212, 255, 0.3)' : '0 10px 30px rgba(0, 0, 0, 0.3)'
       }}>
       
       {/* Background Image */}
-      <motion.div 
-        className="absolute inset-0 z-0"
-        animate={{ 
-          scale: isHovered && !isDragging && !hasDragged.current ? 1.08 : 1 
-        }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        style={{ willChange: 'transform' }}>
+      <div className="absolute inset-0">
         <img
           src={service.image}
           alt={service.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-700"
           loading="lazy"
-          decoding="async"
-          draggable="false"
         />
-      </motion.div>
-
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent z-10" />
-
-      {/* Card Content */}
-      <div className="absolute inset-0 z-20 p-6 md:p-8 flex flex-col">
-        {/* Category Badge - Top Left Corner */}
-        <div className="mb-auto">
-          <div className="inline-flex items-center px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-            <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-white">
-              {service.category}
-            </span>
-          </div>
-        </div>
-
-        {/* Title and Services List - Bottom */}
-        <div className="mt-auto">
-          {/* Title */}
-          <h3 className="text-2xl md:text-3xl font-black mb-4 md:mb-6 text-white leading-tight">
-            {service.title}
-          </h3>
-
-          {/* Services List */}
-          <motion.div 
-            className="space-y-1.5 md:space-y-2 overflow-hidden"
-            animate={{
-              opacity: isHovered && !isDragging && !hasDragged.current ? 1 : 0.8
-            }}
-            transition={{ duration: 0.3 }}>
-            {service.items.slice(0, isHovered && !isDragging && !hasDragged.current ? service.items.length : 4).map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-2 text-xs md:text-sm text-gray-300">
-                <div className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-[#00D4FF] flex-shrink-0" />
-                <span className="line-clamp-1">{item}</span>
-              </div>
-            ))}
-            {(!isHovered || isDragging || hasDragged.current) && service.items.length > 4 && (
-              <p className="text-[10px] md:text-xs text-[#00D4FF] font-semibold mt-2">
-                +{service.items.length - 4} more experiences
-              </p>
-            )}
-          </motion.div>
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#00D4FF]/20 via-transparent to-[#FF007F]/20" />
       </div>
 
-      {/* Subtle Border Glow on Hover */}
-      <motion.div
-        className="absolute inset-0 z-30 rounded-2xl md:rounded-3xl pointer-events-none"
-        animate={{
-          boxShadow: isHovered && !isDragging && !hasDragged.current
-            ? '0 0 20px rgba(0, 212, 255, 0.4), inset 0 0 20px rgba(0, 212, 255, 0.05)'
-            : '0 0 0px rgba(0, 212, 255, 0)',
-        }}
-        transition={{ duration: 0.4 }}
-        style={{
-          border: isHovered && !isDragging && !hasDragged.current ? '1px solid rgba(0, 212, 255, 0.3)' : '1px solid transparent'
-        }}
-      />
-
-      {/* Subtle Shimmer Effect on Hover */}
-      {isHovered && !isDragging && !hasDragged.current && (
+      {/* Content */}
+      <div className="relative h-full flex flex-col justify-end p-8 text-white">
+        {/* Icon */}
         <motion.div
-          className="absolute inset-0 z-25"
-          initial={{ x: '-100%' }}
-          animate={{ x: '100%' }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-          style={{
-            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)'
-          }}
-        />
-      )}
+          className="w-16 h-16 rounded-full bg-[#00D4FF]/20 backdrop-blur-md flex items-center justify-center mb-6 border border-[#00D4FF]/40"
+          animate={{ 
+            boxShadow: isActive ? '0 0 30px rgba(0, 212, 255, 0.6)' : '0 0 10px rgba(0, 212, 255, 0.3)'
+          }}>
+          <IconComponent size={32} className="text-[#00D4FF]" />
+        </motion.div>
+
+        {/* Category */}
+        <motion.span 
+          className="text-sm font-bold uppercase tracking-[0.2em] text-[#FFC857] mb-2"
+          animate={{ opacity: isActive ? 1 : 0.7 }}>
+          {service.category}
+        </motion.span>
+
+        {/* Title */}
+        <motion.h3 
+          className="text-3xl font-black mb-4 leading-tight"
+          style={{ fontFamily: "'Playfair Display', serif" }}
+          animate={{ 
+            scale: isActive ? 1.05 : 1,
+            color: isActive ? '#FFFFFF' : '#E5E5E5'
+          }}>
+          {service.title}
+        </motion.h3>
+
+        {/* Items List */}
+        <motion.div 
+          className="space-y-2"
+          animate={{ opacity: isActive ? 1 : 0.8 }}>
+          {service.items.slice(0, 4).map((item, idx) => (
+            <motion.div
+              key={idx}
+              className="flex items-center gap-3 text-sm text-gray-300"
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: isActive ? 1 : 0.6 }}
+              transition={{ delay: idx * 0.1 }}>
+              <div className="w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
+              <span>{item}</span>
+            </motion.div>
+          ))}
+          {service.items.length > 4 && (
+            <motion.div 
+              className="text-xs text-[#00D4FF] font-semibold mt-2"
+              animate={{ opacity: isActive ? 1 : 0.5 }}>
+              +{service.items.length - 4} more services
+            </motion.div>
+          )}
+        </motion.div>
+      </div>
+
+      {/* Glow Effect */}
+      <motion.div
+        className="absolute inset-0 rounded-3xl"
+        animate={{
+          boxShadow: isActive 
+            ? '0 0 60px rgba(0, 212, 255, 0.4), inset 0 0 60px rgba(0, 212, 255, 0.1)'
+            : '0 0 20px rgba(0, 212, 255, 0.1)'
+        }}
+        transition={{ duration: 0.5 }}
+      />
     </motion.div>
   );
 });
 
 ServiceCard.displayName = 'ServiceCard';
+
+export const ServicesShowcase = memo(() => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const containerRef = useRef(null);
+  const x = useMotionValue(0);
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % services.length);
+    }, 4000); // Change every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+  // Smooth scroll animation
+  useEffect(() => {
+    const targetX = -currentIndex * 420; // 400px width + 20px gap
+    animate(x, targetX, {
+      type: "spring",
+      stiffness: 300,
+      damping: 30,
+      mass: 0.8
+    });
+  }, [currentIndex, x]);
+
+  const handleCardClick = (index) => {
+    setCurrentIndex(index);
+    setIsAutoPlaying(false);
+    // Resume auto-play after 10 seconds
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  return (
+    <section className="py-24 bg-gradient-to-b from-[#0A0A0A] via-[#111111] to-[#0A0A0A] overflow-hidden">
+      <div className="container mx-auto px-6">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16">
+          
+          <motion.div className="inline-block mb-6">
+            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.3em] bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/40 backdrop-blur-md">
+              <Sparkles size={16} />
+              Our Services
+            </span>
+          </motion.div>
+          
+          <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+            EXPERIENCE THE <span className="text-[#00D4FF]">MONSOON</span>
+          </h2>
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            Immerse yourself in our world of premium entertainment, exquisite dining, and electric nightlife
+          </p>
+        </motion.div>
+
+        {/* Auto-scrolling Cards Container */}
+        <div className="relative">
+          <div 
+            ref={containerRef}
+            className="flex gap-5 py-8"
+            onMouseEnter={() => setIsAutoPlaying(false)}
+            onMouseLeave={() => setIsAutoPlaying(true)}>
+            
+            <motion.div
+              className="flex gap-5"
+              style={{ x }}
+              drag="x"
+              dragConstraints={{ left: -(services.length - 1) * 420, right: 0 }}
+              onDragEnd={(_, info) => {
+                const offset = info.offset.x;
+                const velocity = info.velocity.x;
+                
+                if (Math.abs(velocity) > 500) {
+                  if (velocity > 0 && currentIndex > 0) {
+                    setCurrentIndex(currentIndex - 1);
+                  } else if (velocity < 0 && currentIndex < services.length - 1) {
+                    setCurrentIndex(currentIndex + 1);
+                  }
+                } else if (Math.abs(offset) > 100) {
+                  if (offset > 0 && currentIndex > 0) {
+                    setCurrentIndex(currentIndex - 1);
+                  } else if (offset < 0 && currentIndex < services.length - 1) {
+                    setCurrentIndex(currentIndex + 1);
+                  }
+                }
+                setIsAutoPlaying(false);
+                setTimeout(() => setIsAutoPlaying(true), 10000);
+              }}>
+              
+              {services.map((service, index) => (
+                <ServiceCard
+                  key={service.id}
+                  service={service}
+                  isActive={index === currentIndex}
+                  onClick={() => handleCardClick(index)}
+                />
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Navigation Dots */}
+          <div className="flex justify-center gap-3 mt-12">
+            {services.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handleCardClick(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? 'bg-[#00D4FF] shadow-lg shadow-[#00D4FF]/50 scale-125'
+                    : 'bg-white/20 hover:bg-white/40'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Auto-play Indicator */}
+          <motion.div 
+            className="absolute top-4 right-4 flex items-center gap-2 px-4 py-2 bg-black/50 backdrop-blur-md rounded-full text-sm text-white"
+            animate={{ opacity: isAutoPlaying ? 1 : 0.5 }}>
+            <div className={`w-2 h-2 rounded-full ${isAutoPlaying ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`} />
+            <span className="text-xs">{isAutoPlaying ? 'Auto-playing' : 'Paused'}</span>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+});
+
+ServicesShowcase.displayName = 'ServicesShowcase';
