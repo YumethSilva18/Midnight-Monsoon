@@ -1,4 +1,4 @@
-import React, { useRef, memo } from 'react';
+import React, { useRef, memo, useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -108,7 +108,7 @@ const servicesData = [
 ];
 
 // Memoized Service Card Component
-const ServiceCard = memo(({ service, index }) => {
+const ServiceCard = memo(({ service, index, isActive = false }) => {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -123,9 +123,15 @@ const ServiceCard = memo(({ service, index }) => {
         scale: 1.02,
         transition: { duration: 0.2 }
       }}
-      className="relative flex-shrink-0 w-80 h-96 md:w-80 md:h-96 sm:w-70 sm:h-90 rounded-2xl overflow-hidden cursor-pointer group snap-center"
+      className={`relative flex-shrink-0 w-80 h-96 md:w-80 md:h-96 sm:w-70 sm:h-90 rounded-2xl overflow-hidden cursor-pointer group snap-center transition-all duration-500 ${
+        isActive ? 'ring-2 ring-offset-2 ring-offset-transparent' : ''
+      }`}
       style={{
-        scrollSnapAlign: 'center'
+        scrollSnapAlign: 'center',
+        ringColor: isActive ? service.neonColor : 'transparent',
+        boxShadow: isActive 
+          ? `0 0 30px ${service.glowColor}, 0 20px 40px rgba(0, 0, 0, 0.3)`
+          : '0 10px 30px rgba(0, 0, 0, 0.2)'
       }}
     >
       {/* Background Image */}
@@ -140,13 +146,30 @@ const ServiceCard = memo(({ service, index }) => {
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         
-        {/* Neon Glow Effect on Hover */}
+        {/* Neon Glow Effect on Hover and Active State */}
         <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className={`absolute inset-0 transition-opacity duration-300 ${
+            isActive ? 'opacity-60' : 'opacity-0 group-hover:opacity-100'
+          }`}
           style={{
             background: `radial-gradient(circle at center, ${service.glowColor}, transparent 70%)`
           }}
         />
+
+      {/* Active State Indicator */}
+      {isActive && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md rounded-full border"
+          style={{
+            borderColor: service.neonColor,
+            color: service.neonColor
+          }}
+        >
+          <span className="text-xs font-bold uppercase tracking-wider">Active</span>
+        </motion.div>
+      )}
       </div>
 
       {/* Content Overlay */}
@@ -204,7 +227,9 @@ const ServiceCard = memo(({ service, index }) => {
 
       {/* Hover Border Effect */}
       <motion.div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        className={`absolute inset-0 rounded-2xl transition-opacity duration-300 pointer-events-none ${
+          isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        }`}
         style={{
           border: `2px solid ${service.neonColor}`,
           boxShadow: `0 0 20px ${service.glowColor}, inset 0 0 20px ${service.glowColor}`
@@ -219,25 +244,75 @@ ServiceCard.displayName = 'ServiceCard';
 // Main Services Horizontal Loop Component
 export const ServicesHorizontalLoop = memo(() => {
   const scrollContainerRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (!isAutoPlaying || isPaused) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % servicesData.length;
+        scrollToIndex(nextIndex);
+        return nextIndex;
+      });
+    }, 4000); // Change every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, isPaused]);
+
+  // Scroll to specific index
+  const scrollToIndex = useCallback((index) => {
+    if (scrollContainerRef.current) {
+      const cardWidth = 320; // Card width
+      const gap = 24; // Gap between cards (1.5rem = 24px)
+      const scrollPosition = index * (cardWidth + gap);
+      
+      scrollContainerRef.current.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+      });
+    }
+  }, []);
 
   // Scroll functions for navigation buttons
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({
-        left: -340, // Card width + gap
-        behavior: 'smooth'
-      });
-    }
-  };
+  const scrollLeft = useCallback(() => {
+    const newIndex = currentIndex === 0 ? servicesData.length - 1 : currentIndex - 1;
+    setCurrentIndex(newIndex);
+    scrollToIndex(newIndex);
+    setIsAutoPlaying(false);
+    // Resume auto-play after 10 seconds
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  }, [currentIndex, scrollToIndex]);
 
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({
-        left: 340, // Card width + gap
-        behavior: 'smooth'
-      });
-    }
-  };
+  const scrollRight = useCallback(() => {
+    const newIndex = (currentIndex + 1) % servicesData.length;
+    setCurrentIndex(newIndex);
+    scrollToIndex(newIndex);
+    setIsAutoPlaying(false);
+    // Resume auto-play after 10 seconds
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  }, [currentIndex, scrollToIndex]);
+
+  // Handle mouse enter/leave for auto-play pause
+  const handleMouseEnter = useCallback(() => {
+    setIsPaused(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsPaused(false);
+  }, []);
+
+  // Handle card click
+  const handleCardClick = useCallback((index) => {
+    setCurrentIndex(index);
+    scrollToIndex(index);
+    setIsAutoPlaying(false);
+    // Resume auto-play after 10 seconds
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  }, [scrollToIndex]);
 
   return (
     <motion.section
@@ -283,7 +358,25 @@ export const ServicesHorizontalLoop = memo(() => {
         </motion.div>
 
         {/* Horizontal Scrollable Container */}
-        <div className="relative group">
+        <div 
+          className="relative group"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {/* Auto-play Indicator */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="absolute top-4 right-4 z-30 flex items-center gap-2 px-4 py-2 bg-black/50 backdrop-blur-md rounded-full text-sm text-white border border-white/20"
+          >
+            <div className={`w-2 h-2 rounded-full ${isAutoPlaying && !isPaused ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`} />
+            <span className="text-xs font-medium">
+              {isAutoPlaying && !isPaused ? 'Auto-playing' : 'Paused'}
+            </span>
+          </motion.div>
+
           {/* Navigation Buttons */}
           <motion.button
             initial={{ opacity: 0, x: -20 }}
@@ -324,27 +417,38 @@ export const ServicesHorizontalLoop = memo(() => {
             }}
           >
             {servicesData.map((service, index) => (
-              <ServiceCard
+              <div
                 key={service.id}
-                service={service}
-                index={index}
-              />
+                onClick={() => handleCardClick(index)}
+                className="cursor-pointer"
+              >
+                <ServiceCard
+                  service={service}
+                  index={index}
+                  isActive={index === currentIndex}
+                />
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Navigation Dots */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.8 }}
-          className="flex justify-center mt-8 gap-2"
+          className="flex justify-center mt-8 gap-3"
         >
           {servicesData.map((_, index) => (
-            <div
+            <button
               key={index}
-              className="w-2 h-2 rounded-full bg-white/20 hover:bg-[#cfbcff]/60 transition-colors duration-300 cursor-pointer"
+              onClick={() => handleCardClick(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentIndex
+                  ? 'bg-[#cfbcff] shadow-lg shadow-[#cfbcff]/50 scale-125'
+                  : 'bg-white/20 hover:bg-white/40'
+              }`}
             />
           ))}
         </motion.div>
