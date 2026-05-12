@@ -123,7 +123,7 @@ const ServiceCard = memo(({ service, index, isActive = false }) => {
         scale: 1.02,
         transition: { duration: 0.2 }
       }}
-      className={`relative flex-shrink-0 w-80 h-96 md:w-80 md:h-96 sm:w-70 sm:h-90 rounded-2xl overflow-hidden cursor-pointer group snap-center transition-all duration-500 ${
+      className={`relative flex-shrink-0 w-80 h-96 md:w-80 md:h-96 rounded-2xl overflow-hidden cursor-pointer group snap-center transition-all duration-500 ${
         isActive ? 'ring-2 ring-offset-2 ring-offset-transparent' : ''
       }`}
       style={{
